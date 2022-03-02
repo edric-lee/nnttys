@@ -1,0 +1,7 @@
+<view class="account">
+ <button type="primary" size="mini" style="width:150px;" bindtap='buttonClick'>导出数据</button>
+ </view>
+ <view wx:if="{{fileUrl}}"> 
+     <button type="primary" size="mini" bindtap='copyFileUrl'>复制地址</button>
+     <view >{{fileUrl}}</view>
+ </view>

@@ -1,0 +1,63 @@
+<!-- <view class="title">
+  <view class="sign-setting-border {{idx==item.Item_id?'selected':''}}" wx:for="{{applyList}}" wx:key="" bindtap='selectApply' data-id="{{item.Item_id}}">{{item.Item_Name}}</view>
+</view> -->
+<form bindsubmit="teformSubmit">
+  <!--  年级 -->
+  <view class='motion flexac'>
+    <view class='motionText'>上课时间</view>
+    <view class="section flexjac">
+      <picker mode="multiSelector" bindchange="bindclassChange" bindcolumnchange="bindColumnChange" value="{{index}}" range="{{class}}">
+       <view class="picker">{{class[0][classId[0]]+class[1][classId[1]]}}</view>
+      </picker>
+      <image src='/img/arrow-right.png' class='sectImg'></image>
+    </view>
+    <input style='display:none;' name="class" value="{{class[0][classId[0]]+class[1][classId[1]]}}"></input>
+  </view>
+  <!-- 年级end -->
+  <!-- 上课时间 -->
+  <view class='motion flexac'>
+    <view class='motionText'>上课时间</view>
+    <view class="section flexjac">
+      <picker bindchange="weekTypeChange" value="{{weekId}}" range="{{week}}">
+        <view class="picker">
+          {{week[weekId]}}
+        </view>
+      </picker>
+      <image src='/img/arrow-right.png' class='sectImg'></image>
+    </view>
+    <input style='display:none;' name="week" value="{{week[weekId]}}"></input>
+  </view>
+  <!-- 上课时间end -->
+
+
+  <view class='proText'>*点击查询学员前，请选项班级信息</view>
+  <button formType="submit">查询学员</button>
+</form>
+
+<view class="main" >
+  <view class="grid{{item.check}}"  bindtap="change" wx:for="{{list}}" wx:key="{{item.id}}">
+    <text data-index="{{index}}"> \n{{item.id}}\n{{item.name}} 
+      
+    </text>
+    <text class="iconfont icon-dagou{{item.check}}" ></text>
+  
+  </view>
+</view>
+<form bindsubmit="checkSubmit">
+  <!-- 签到日期 -->
+  <view class='motion flexac'>
+    <view class='motionText'>上课时间</view>
+    <view class="section flexjac">
+      <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
+    <view class="picker">
+      当前选择: {{date}}
+    </view>
+  </picker>
+      <image src='/img/arrow-right.png' class='sectImg'></image>
+    </view>
+    <input style='display:none;' name="date" value="{{date}}"></input>
+  </view>
+  <!-- 签到日期end -->
+
+  <button formType="submit">提交记录</button>
+</form>

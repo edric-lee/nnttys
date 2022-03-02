@@ -1,0 +1,80 @@
+<view class="auth" wx:if="{{isHide}}" style="height:{{winH}}px">
+  <view wx:if="{{canIUse}}">
+    <view class='header'>
+      <image src='https://6669-finance-059fa2-1258372440.tcb.qcloud.la/images/timg.jpg?sign=b1ac3a29fad0e08e8cb9cefad28d68df&t=1549177098'></image>
+    </view>
+
+    <view class='content'>
+      <view>申请获取以下权限</view>
+      <text>获得你的公开信息(昵称，头像等)</text>
+    </view>
+
+    <button class='bottom' type='primary' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="bindGetUserInfo">
+      授权登录
+    </button>
+  </view>
+  <view wx:else>请升级微信版本</view>
+</view>
+
+<view wx:else>
+  <view>
+    <view>
+      <open-data class="avatar" type='userAvatarUrl'></open-data>
+    </view>
+    <view class="name">
+      <open-data type="userNickName" lang="zh_CN"></open-data>
+    </view>
+    <view class='i-grid'>
+      <i-grid>
+        <i-grid-item bindtap="travel">
+          <i-grid-icon>
+            <image src="../../images/a5.png" />
+          </i-grid-icon>
+          <i-grid-label>特设课程签到</i-grid-label>
+        </i-grid-item>
+
+
+        <i-grid-item bindtap="account">
+          <i-grid-icon>
+            <image src="../../images/a4.png" />
+          </i-grid-icon>
+          <i-grid-label>作业辅导签到</i-grid-label>
+        </i-grid-item>
+
+
+        <i-grid-item bindtap="process">
+          <i-grid-icon>
+            <image src="../../images/a1.png" />
+          </i-grid-icon>
+          <i-grid-label>开发中</i-grid-label>
+        </i-grid-item>
+      </i-grid>
+      <i-grid>
+        <i-grid-item bindtap="invoice">
+          <i-grid-icon>
+            <image src="../../images/a1.png" />
+          </i-grid-icon>
+          <i-grid-label>开发中</i-grid-label>
+        </i-grid-item>
+        <i-grid-item>
+          <i-grid-icon>
+            <image src="../../images/a1.png" />
+          </i-grid-icon>开发中</i-grid-item>
+        <i-grid-item bindtap="tool">
+          <i-grid-icon>
+            <image src="../../images/a1.png" />
+          </i-grid-icon>开发中</i-grid-item>
+      </i-grid>
+    </view>
+  </view>
+</view>
+
+
+
+<!-- <button class="cs_button" open-type="contact" session-from="weapp">
+
+</button>
+<view class="kf">
+  <image class="cs_image" src="../images/a6.png"></image>
+  <view class="text">联系财务</view> 
+</view> -->
