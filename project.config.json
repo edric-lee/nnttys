@@ -27,9 +27,11 @@
       "outputPath": ""
     },
     "enableEngineNative": false,
+    "bundle": false,
     "useIsolateContext": true,
     "useCompilerModule": true,
     "userConfirmedUseCompilerModuleSwitch": false,
+    "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
     "minifyWXSS": true
@@ -60,8 +62,13 @@
         },
         {
           "name": "pages/home/home",
-          "pathName": "pages/checkin/checkin",
+          "pathName": "pages/index/index",
           "query": "",
+          "scene": null
+        },
+        {
+          "name": "checkin",
+          "pathName": "pages/checkin/checkin",
           "scene": null
         }
       ]

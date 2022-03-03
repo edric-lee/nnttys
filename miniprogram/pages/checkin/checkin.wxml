@@ -44,13 +44,13 @@
   </view>
 </view>
 <form bindsubmit="checkSubmit">
-  <!-- 签到日期 -->
+  <!-- 考勤日期 -->
   <view class='motion flexac'>
-    <view class='motionText'>上课时间</view>
+    <view class='motionText'>考勤日期</view>
     <view class="section flexjac">
-      <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
+      <picker mode="date" value="{{date}}" start="2022/03/01" end="2022/12/01" bindchange="bindDateChange">
     <view class="picker">
-      当前选择: {{date}}
+      {{date}}
     </view>
   </picker>
       <image src='/img/arrow-right.png' class='sectImg'></image>
@@ -58,6 +58,27 @@
     <input style='display:none;' name="date" value="{{date}}"></input>
   </view>
   <!-- 签到日期end -->
-
+  
+  <!-- 上传图片 -->
+  <view class='pages'>
+  <view class='top'><text class='top_name'>考勤照片</text></view>
+  <!-- 图片 -->
+  <view class="images_box">
+    <block wx:key="imgbox" wx:for="{{imgbox}}">
+      <view class='img-box'>
+        <image class='img' src='{{item}}'></image>
+        <view class='img-delect' data-deindex='{{index}}' bindtap='imgDelete1'>
+          <image class='img' src='../../images/delect.png'></image>   
+        </view>
+      </view>
+    </block>
+    <view class='img-box' bindtap='addPic1' wx:if="{{imgbox.length<9}}">
+      <image class='img' src='../../images/add_image.png'></image>   
+    </view>
+  </view>
+</view>
   <button formType="submit">提交记录</button>
 </form>
+
+<city-picker bind:selected="selectCity"></city-picker>
+
