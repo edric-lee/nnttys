@@ -6,158 +6,90 @@ const student=db.collection('class')
 
 Page({
 
+
+    /**
+     * 页面的初始数据
+     */
+
+  
   /**
    * 页面的初始数据
    */
   data: {
-    multiArray: [{
-      id: 1,
-      label: "特色课程",
-      children: [{
-          id: 2,
-          label: "科技",
-          children: [{
-              id: 3,
-              label: "科学STEM",
-            },
-            {
-              id: 4,
-              label: "黄埔",
-            },
-            {
-              id: 5,
-              label: "徐汇",
-            },
-          ],
-        },
-        {
-          id: 7,
-          label: "艺术",
-          children: [{
-              id: 8,
-              label: "南京",
-            },
-            {
-              id: 9,
-              label: "苏州",
-            },
-            {
-              id: 10,
-              label: "无锡",
-            },
-          ],
-        },
-        {
-          id: 12,
-          label: "体育",
-          children: [{
-              id: 13,
-              label: "杭州",
-            },
-            {
-              id: 14,
-              label: "宁波",
-            },
-            {
-              id: 15,
-              label: "嘉兴",
-            },
-          ],
-        },
+    customIndex: [0, 0, 0],
+      //当前选中数组
+      onlyArray: [
+        [],
+        [],
+        []
       ],
-    },
-    {
-      id: 17,
-      label: "作业辅导",
-      children: [{
-          id: 18,
-          label: "一年级",
-          children: [{
-              id: 19,
-              label: "西安",
+      //customArray假设为我们从后台获取到的json数据
+      customArray: [{
+          name: '特色课程',
+          dept: [{
+              name: '科技',
+              product: [{
+                  name: '科学STEAM'
+                },
+                {
+                  name: '编程'
+                },
+              ]
             },
             {
-              id: 20,
-              label: "延安",
+              name: '艺术',
+              product: [{
+                name: '合唱团'
+              }, {
+                name: '画画'
+              }]
             },
-          ],
+            {
+              name: '体育',
+              product: [{
+                name: '足球'
+              },{
+                name: '跳绳'
+              }]
+            }
+          ]
         },
-        {
-          id: 21,
-          label: "二年级",
-          children: [{
-              id: 22,
-              label: "乌鲁木齐",
-            },
-            {
-              id: 23,
-              label: "克拉玛依",
-            },
-          ],
-        },
-        {
-          id: 21,
-          label: "三年级",
-          children: [{
-              id: 22,
-              label: "乌鲁木齐",
-            },
-            {
-              id: 23,
-              label: "克拉玛依",
-            },
-          ],
-        },{
-          id: 21,
-          label: "四年级",
-          children: [{
-              id: 22,
-              label: "乌鲁木齐",
-            },
-            {
-              id: 23,
-              label: "克拉玛依",
-            },
-          ],
-        },{
-          id: 21,
-          label: "五年级",
-          children: [{
-              id: 22,
-              label: "乌鲁木齐",
-            },
-            {
-              id: 23,
-              label: "克拉玛依",
-            },
-          ],
-        },{
-          id: 21,
-          label: "六年级",
-          children: [{
-              id: 22,
-              label: "乌鲁木齐",
-            },
-            {
-              id: 23,
-              label: "克拉玛依",
-            },
-          ],
-        },
-      ],
-    },
-  ],
-  multiIndex: [0, 0, 0],
-  multiIds: [],
-  newArr: [],
-    list: [],
-
-
   
+        {
+          name: '作业辅导',
+          dept: [{
+              name: '一年级',
+              product: [{
+                  name: '1班'
+                },
+                {
+                  name: '2班'
+                },
+              ]
+            },
+            {
+              name: '二年级',
+              product: [{
+                  name: '1班'
+                },
+                {
+                  name: '2班'
+                },
+              ]
+            },
+  
+            {
+              name: '短视频',
+              product: [{
+                name: '微视'
+              }]
+            }
+          ]
+        },
+      ],
+  list: [], 
     idx:'',
-
     sel1:'',
-
     week:['星期一','星期三','星期四','星期五'],
     weekId:0,
     date:['选择考勤日期'],
@@ -165,6 +97,7 @@ Page({
     fileIDs: [],//上传云存储后的返回值
 
   },
+  
   selectApply:function(e){
     let id = e.target.dataset.id
     console.log(e.target.dataset.id)
@@ -213,17 +146,14 @@ Page({
   },
   //表单提交时间
   teformSubmit(e) {
-    console.log(this.data.multiIds[2])
-    console.log(e.detail.value)
-    // let val = e.detail.value
-
+    let val = e.detail.value
     student.where({
-      class:this.data.multiIds[2],
-      week:e.detail.value
-    })
+      course:this.data.customIndex[2].label,
+      week:val.week
+      })
     .orderBy('id','asc')
     .get().then(res=>{
-      // console.log("查询",res.data)
+      console.log("查询",res.data)
     var datalist=res.data
     for(var j in datalist) {
       res.data[j]['check']="1"
@@ -413,103 +343,144 @@ imgbox: function (e) {
     imgbox: e.detail.value
   })
 },
-bindMultiPickerChange(e) {
-  console.log(this.data.multiIds);
-},
-bindMultiPickerColumnChange(e) {
-  let data = {
-    newArr: this.data.newArr,
-    multiIndex: this.data.multiIndex,
-    multiIds: this.data.multiIds,
-  };
-  data.multiIndex[e.detail.column] = e.detail.value;
 
-  let searchColumn = () => {
-    let arr1 = [];
-    let arr2 = [];
-    this.data.multiArray.map((v, vk) => {
-      if (data.multiIndex[0] === vk) {
-        data.multiIds[0] = {
-          ...v,
-        };
-        v.children.map((c, ck) => {
-          arr1.push(c.label);
-          if (data.multiIndex[1] === ck) {
-            data.multiIds[1] = {
-              ...c,
-            };
-            c.children.map((t, vt) => {
-              arr2.push(t.label);
-              if (data.multiIndex[2] === vt) {
-                data.multiIds[2] = {
-                  ...t,
-                };
-              }
-            });
-          }
-        });
-      }
-    });
-    data.newArr[1] = arr1;
-    data.newArr[2] = arr2;
+onLoad: function(options) {
+  var data = {
+    customArray: this.data.customArray,
+    customIndex: this.data.customIndex,
+    onlyArray: this.data.onlyArray,
   };
-  switch (e.detail.column) {
-    case 0:
-      // 每次切换还原初始值
-      data.multiIndex[1] = 0;
-      data.multiIndex[2] = 0;
-      // 执行函数处理
-      searchColumn();
-      break;
-    case 1:
-      data.multiIndex[2] = 0;
-      searchColumn();
-      break;
+  for (var i = 0; i < data.customArray.length; i++) {
+    data.onlyArray[0].push(data.customArray[i].name);
+  }
+  for (var j = 0; j < data.customArray[data.customIndex[0]].dept.length; j++) {
+    data.onlyArray[1].push(data.customArray[data.customIndex[0]].dept[j].name);
+  }
+  for (var k = 0; k < data.customArray[data.customIndex[0]].dept[data.customIndex[1]].product.length; k++) {
+    data.onlyArray[2].push(data.customArray[data.customIndex[0]].dept[data.customIndex[1]].product[k].name);
   }
   this.setData(data);
 },
+//多列自定义选择器改变value的方法
+bindCustomPickerChange: function(e) {
+  var customArray = this.data.customArray,
+    customIndex = this.data.customIndex,
+    onlyArray = this.data.onlyArray;
 
-/**
- * 生命周期函数--监听页面加载
- */
-onLoad: function (options) {
-  let state = {
-    arr: [],
-    arr1: [],
-    arr2: [],
-    arr3: [],
-    multiIds: []
-  }
-  this.data.multiArray.map((v, vk) => {
-    state.arr1.push(v.label);
-    if (this.data.multiIndex[0] === vk) {
-      state.multiIds[0] = v;
-    }
-    if (state.arr2.length <= 0) {
-      v.children.map((c, ck) => {
-        state.arr2.push(c.label);
-        if (this.data.multiIndex[1] === ck) {
-          state.multiIds[1] = c;
-        }
-        if (state.arr3.length <= 0) {
-          c.children.map((t, tk) => {
-            state.arr3.push(t.label);
-            if (this.data.multiIndex[2] === tk) {
-              state.multiIds[2] = t;
-            }
-          });
-        }
-      });
-    }
-  });
-  state.arr[0] = state.arr1;
-  state.arr[1] = state.arr2;
-  state.arr[2] = state.arr3;
+  console.log('picker发送选择改变，携带值为', e.detail.value);
+  //此处e.detail.value为当前选择的列的下标值数组，如[0,1,0]
+  
+  console.log('picker最终选择值为：', onlyArray[0][customIndex[0]], onlyArray[1][customIndex[1]], onlyArray[2][customIndex[2]]);
   this.setData({
-    newArr: state.arr,
-    multiIds: state.multiIds,
+    customIndex: e.detail.value
+  })
+},
+
+//多列自创选择器换列方法
+bindCustomPickerColumnChange: function(e) {
+  var customArray = this.data.customArray,
+    customIndex = this.data.customIndex,
+    onlyArray = this.data.onlyArray;
+
+  customIndex[e.detail.column] = e.detail.value;
+  // console.log(onlyArray);
+
+  var searchColumn = () => {
+    for (var i = 0; i < customArray.length; i++) {
+      var arr1 = [];
+      var arr2 = [];
+      if (i == customIndex[0]) {
+        for (var j = 0; j < customArray[i].dept.length; j++) {
+          arr1.push(customArray[i].dept[j].name);
+          if (j == customIndex[1]) {
+            for (var k = 0; k < customArray[i].dept[j].product.length; k++) {
+              arr2.push(customArray[i].dept[j].product[k].name);
+            }
+            onlyArray[2] = arr2;
+          }
+        }
+        onlyArray[1] = arr1;
+      }
+    };
+  }
+
+  switch (e.detail.column) {
+    case 0:
+      customIndex[1] = 0;
+      customIndex[2] = 0;
+      searchColumn();
+      break;
+    case 1:
+      customIndex[2] = 0;
+      searchColumn();
+      break;
+  }
+  this.setData({
+    onlyArray: onlyArray,
+    customIndex: customIndex
   });
 },
+//多列自定义选择器改变value的方法
+bindCustomPickerChange: function(e) {
+  var customArray = this.data.customArray,
+    customIndex = this.data.customIndex,
+    onlyArray = this.data.onlyArray;
+
+  console.log('picker发送选择改变，携带值为', e.detail.value);
+  //此处e.detail.value为当前选择的列的下标值数组，如[0,1,0]
+  
+  console.log('picker最终选择值为：', onlyArray[0][customIndex[0]], onlyArray[1][customIndex[1]], onlyArray[2][customIndex[2]]);
+  this.setData({
+    customIndex: e.detail.value
+  })
+},
+
+//多列自创选择器换列方法
+bindCustomPickerColumnChange: function(e) {
+  var customArray = this.data.customArray,
+    customIndex = this.data.customIndex,
+    onlyArray = this.data.onlyArray;
+
+  customIndex[e.detail.column] = e.detail.value;
+  // console.log(onlyArray);
+
+  var searchColumn = () => {
+    for (var i = 0; i < customArray.length; i++) {
+      var arr1 = [];
+      var arr2 = [];
+      if (i == customIndex[0]) {
+        for (var j = 0; j < customArray[i].dept.length; j++) {
+          arr1.push(customArray[i].dept[j].name);
+          if (j == customIndex[1]) {
+            for (var k = 0; k < customArray[i].dept[j].product.length; k++) {
+              arr2.push(customArray[i].dept[j].product[k].name);
+            }
+            onlyArray[2] = arr2;
+          }
+        }
+        onlyArray[1] = arr1;
+      }
+    };
+  }
+
+  switch (e.detail.column) {
+    case 0:
+      customIndex[1] = 0;
+      customIndex[2] = 0;
+      searchColumn();
+      break;
+    case 1:
+      customIndex[2] = 0;
+      searchColumn();
+      break;
+  }
+  this.setData({
+    onlyArray: onlyArray,
+    customIndex: customIndex
+  });
+},
+
+
 
 
 

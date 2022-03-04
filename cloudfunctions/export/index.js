@@ -1,7 +1,7 @@
 const cloud = require('wx-server-sdk')
 //这里最好也初始化一下你的云开发环境
 cloud.init({
-  env: "nnttys-0gk250qj33ca1688"
+  env: "nnttys-8ghq25o9550460d0"
 })
 //操作excel用的类库
 const xlsx = require('node-xlsx');

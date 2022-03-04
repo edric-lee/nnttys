@@ -18,13 +18,27 @@
 <!--pages/picker/picker.wxml-->
 <view class='motion flexac'>
   <view class="motionText">课程信息</view>
-  <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange"
-    value="{{multiIndex}}" range="{{newArr}}">
+  <!-- <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange"
+    value="{undefined{multiIndex}}" range="{{newArr}}">
     <view class="picker">
-        {{newArr[0][multiIndex[0]]}}-{{newArr[1][multiIndex[1]]}}-{{newArr[2][multiIndex[2]]}}
+      <van-button type="primary">
+        {{newArr[0][multiIndex[0]]}}-{{newArr[1][multiIndex[1]]}}-{{newArr[2][multiIndex[2]]}}</van-button>
         <image src='/img/arrow-right.png' class='sectImg'></image>
     </view>
-  </picker>
+  </picker> -->
+  <picker 
+    mode="multiSelector" 
+    bindchange="bindCustomPickerChange"   
+    bindcolumnchange="bindCustomPickerColumnChange" 
+    value="{{customIndex}}" 
+    range="{{onlyArray}}"
+    >
+    <view class="picker">
+      {{onlyArray[0][customIndex[0]]}}-{{onlyArray[1][customIndex[1]]}}-{{onlyArray[2][customIndex[2]]}}
+      <image src='/img/arrow-right.png' class='sectImg'></image>
+    </view>
+</picker>
+
 </view>
 
   <!-- end -->
