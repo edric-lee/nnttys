@@ -1,7 +1,7 @@
 {
   "usingComponents": {
 
-    "city-picker":"../../components/city-picker/city-picker"
+
 
   },
   "navigationBarTitleText": "考勤签到"

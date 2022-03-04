@@ -10,34 +10,160 @@ Page({
    * 页面的初始数据
    */
   data: {
+    multiArray: [{
+      id: 1,
+      label: "特色课程",
+      children: [{
+          id: 2,
+          label: "科技",
+          children: [{
+              id: 3,
+              label: "科学STEM",
+            },
+            {
+              id: 4,
+              label: "黄埔",
+            },
+            {
+              id: 5,
+              label: "徐汇",
+            },
+          ],
+        },
+        {
+          id: 7,
+          label: "艺术",
+          children: [{
+              id: 8,
+              label: "南京",
+            },
+            {
+              id: 9,
+              label: "苏州",
+            },
+            {
+              id: 10,
+              label: "无锡",
+            },
+          ],
+        },
+        {
+          id: 12,
+          label: "体育",
+          children: [{
+              id: 13,
+              label: "杭州",
+            },
+            {
+              id: 14,
+              label: "宁波",
+            },
+            {
+              id: 15,
+              label: "嘉兴",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 17,
+      label: "作业辅导",
+      children: [{
+          id: 18,
+          label: "一年级",
+          children: [{
+              id: 19,
+              label: "西安",
+            },
+            {
+              id: 20,
+              label: "延安",
+            },
+          ],
+        },
+        {
+          id: 21,
+          label: "二年级",
+          children: [{
+              id: 22,
+              label: "乌鲁木齐",
+            },
+            {
+              id: 23,
+              label: "克拉玛依",
+            },
+          ],
+        },
+        {
+          id: 21,
+          label: "三年级",
+          children: [{
+              id: 22,
+              label: "乌鲁木齐",
+            },
+            {
+              id: 23,
+              label: "克拉玛依",
+            },
+          ],
+        },{
+          id: 21,
+          label: "四年级",
+          children: [{
+              id: 22,
+              label: "乌鲁木齐",
+            },
+            {
+              id: 23,
+              label: "克拉玛依",
+            },
+          ],
+        },{
+          id: 21,
+          label: "五年级",
+          children: [{
+              id: 22,
+              label: "乌鲁木齐",
+            },
+            {
+              id: 23,
+              label: "克拉玛依",
+            },
+          ],
+        },{
+          id: 21,
+          label: "六年级",
+          children: [{
+              id: 22,
+              label: "乌鲁木齐",
+            },
+            {
+              id: 23,
+              label: "克拉玛依",
+            },
+          ],
+        },
+      ],
+    },
+  ],
+  multiIndex: [0, 0, 0],
+  multiIds: [],
+  newArr: [],
     list: [],
-    
-    class:[['一年级','二年级','三年级','四年级','五年级','六年级'],['1班','2班','3班','4班','5班','6班','7班','8班','9班','10班','11班','12班']],
-    classId:[0,0],
+
 
   
     idx:'',
-    applyList:[
-      {Item_id: "10", Item_Name: "特殊课程"},
-      {Item_id: "11", Item_Name: "作业辅导"},
-    ],
+
     sel1:'',
-    course:['科学STEAM','简笔画'],
-    courseId:0,
+
     week:['星期一','星期三','星期四','星期五'],
     weekId:0,
     date:['选择考勤日期'],
     imgbox: [],//选择图片
     fileIDs: [],//上传云存储后的返回值
 
-    provinces: [],
-    province: "北京市",
-    citys: [],
-    city: "北京城区",
-    countys: [],
-    county: "昌平区",
-    value: [0, 0, 0],
-    isShow: false
   },
   selectApply:function(e){
     let id = e.target.dataset.id
@@ -78,19 +204,6 @@ Page({
     },
  
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-
-  bindclassChange:function(e){
-    console.log(e.detail)
-    this.setData({
-      classId: e.detail.value
-    })
-  },
-  bindColumnChange:function(e){
-    console.log(e.detail)    
-  },
   // 推广类型
   weekTypeChange: function (e) {
     console.log('星期', e.detail.value)
@@ -98,22 +211,15 @@ Page({
       weekId: e.detail.value//把当前的触摸的索引给expandTypeID
     })
   },
-  bindDateChange: function (e) {
-    console.log('签到时间', e.detail.value)
-    this.setData({
-      date: e.detail.value//把当前的触摸的索引给expandTypeID
-    })
-  },
   //表单提交时间
   teformSubmit(e) {
-    // console.log('form=>',e)
-    let val = e.detail.value
-    // console.log('form', val.class.substr(3,3))
+    console.log(this.data.multiIds[2])
+    console.log(e.detail.value)
+    // let val = e.detail.value
 
     student.where({
-      grade:val.class.substr(0,3),
-      class:val.class.substr(3,3),
-      week:val.week 
+      class:this.data.multiIds[2],
+      week:e.detail.value
     })
     .orderBy('id','asc')
     .get().then(res=>{
@@ -306,6 +412,103 @@ imgbox: function (e) {
   this.setData({
     imgbox: e.detail.value
   })
+},
+bindMultiPickerChange(e) {
+  console.log(this.data.multiIds);
+},
+bindMultiPickerColumnChange(e) {
+  let data = {
+    newArr: this.data.newArr,
+    multiIndex: this.data.multiIndex,
+    multiIds: this.data.multiIds,
+  };
+  data.multiIndex[e.detail.column] = e.detail.value;
+
+  let searchColumn = () => {
+    let arr1 = [];
+    let arr2 = [];
+    this.data.multiArray.map((v, vk) => {
+      if (data.multiIndex[0] === vk) {
+        data.multiIds[0] = {
+          ...v,
+        };
+        v.children.map((c, ck) => {
+          arr1.push(c.label);
+          if (data.multiIndex[1] === ck) {
+            data.multiIds[1] = {
+              ...c,
+            };
+            c.children.map((t, vt) => {
+              arr2.push(t.label);
+              if (data.multiIndex[2] === vt) {
+                data.multiIds[2] = {
+                  ...t,
+                };
+              }
+            });
+          }
+        });
+      }
+    });
+    data.newArr[1] = arr1;
+    data.newArr[2] = arr2;
+  };
+  switch (e.detail.column) {
+    case 0:
+      // 每次切换还原初始值
+      data.multiIndex[1] = 0;
+      data.multiIndex[2] = 0;
+      // 执行函数处理
+      searchColumn();
+      break;
+    case 1:
+      data.multiIndex[2] = 0;
+      searchColumn();
+      break;
+  }
+  this.setData(data);
+},
+
+/**
+ * 生命周期函数--监听页面加载
+ */
+onLoad: function (options) {
+  let state = {
+    arr: [],
+    arr1: [],
+    arr2: [],
+    arr3: [],
+    multiIds: []
+  }
+  this.data.multiArray.map((v, vk) => {
+    state.arr1.push(v.label);
+    if (this.data.multiIndex[0] === vk) {
+      state.multiIds[0] = v;
+    }
+    if (state.arr2.length <= 0) {
+      v.children.map((c, ck) => {
+        state.arr2.push(c.label);
+        if (this.data.multiIndex[1] === ck) {
+          state.multiIds[1] = c;
+        }
+        if (state.arr3.length <= 0) {
+          c.children.map((t, tk) => {
+            state.arr3.push(t.label);
+            if (this.data.multiIndex[2] === tk) {
+              state.multiIds[2] = t;
+            }
+          });
+        }
+      });
+    }
+  });
+  state.arr[0] = state.arr1;
+  state.arr[1] = state.arr2;
+  state.arr[2] = state.arr3;
+  this.setData({
+    newArr: state.arr,
+    multiIds: state.multiIds,
+  });
 },
 
 

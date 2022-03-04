@@ -3,8 +3,8 @@
 </view> -->
 <form bindsubmit="teformSubmit">
   <!--  年级 -->
-  <view class='motion flexac'>
-    <view class='motionText'>上课时间</view>
+  <!-- <view class='motion flexac'>
+    <view class='motionText'>课程信息</view>
     <view class="section flexjac">
       <picker mode="multiSelector" bindchange="bindclassChange" bindcolumnchange="bindColumnChange" value="{{index}}" range="{{class}}">
        <view class="picker">{{class[0][classId[0]]+class[1][classId[1]]}}</view>
@@ -12,8 +12,22 @@
       <image src='/img/arrow-right.png' class='sectImg'></image>
     </view>
     <input style='display:none;' name="class" value="{{class[0][classId[0]]+class[1][classId[1]]}}"></input>
-  </view>
+  </view> -->
   <!-- 年级end -->
+    <!--  课程 -->
+<!--pages/picker/picker.wxml-->
+<view class='motion flexac'>
+  <view class="motionText">课程信息</view>
+  <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange"
+    value="{{multiIndex}}" range="{{newArr}}">
+    <view class="picker">
+        {{newArr[0][multiIndex[0]]}}-{{newArr[1][multiIndex[1]]}}-{{newArr[2][multiIndex[2]]}}
+        <image src='/img/arrow-right.png' class='sectImg'></image>
+    </view>
+  </picker>
+</view>
+
+  <!-- end -->
   <!-- 上课时间 -->
   <view class='motion flexac'>
     <view class='motionText'>上课时间</view>
@@ -79,6 +93,4 @@
 </view>
   <button formType="submit">提交记录</button>
 </form>
-
-<city-picker bind:selected="selectCity"></city-picker>
 
