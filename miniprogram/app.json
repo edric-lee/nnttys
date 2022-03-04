@@ -15,7 +15,6 @@
     "pages/im/room/room",
     "pages/checkin/checkin",
     "pages/home/home",
-    "pages/download",
     "pages/download/download"
   ],
   "window": {
