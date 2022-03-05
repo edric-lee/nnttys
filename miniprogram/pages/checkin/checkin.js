@@ -144,11 +144,21 @@ Page({
       weekId: e.detail.value//把当前的触摸的索引给expandTypeID
     })
   },
+
+
+  bindDateChange: function (e) {
+    console.log('签到时间', e.detail.value)
+    this.setData({
+      date: e.detail.value//把当前的触摸的索引给expandTypeID
+    })
+  },
   //表单提交时间
   teformSubmit(e) {
     let val = e.detail.value
+    let cIndex =this.data.customIndex[2]
+    // console.log("课课程",this.data.onlyArray[2][cIndex])
     student.where({
-      course:this.data.customIndex[2].label,
+      course:this.data.onlyArray[2][cIndex],
       week:val.week
       })
     .orderBy('id','asc')
@@ -208,10 +218,10 @@ Page({
       let promiseArr = [];
       for (let i = 0; i < this.data.imgbox.length; i++) {
         promiseArr.push(new Promise((reslove, reject) => {
-          let item = this.data.imgbox[i];
+               let item = this.data.imgbox[i];
           let suffix = /\.\w+$/.exec(item)[0];//正则表达式返回文件的扩展名
           wx.cloud.uploadFile({
-            cloudPath: "attendance/"+ new Date().getTime() + suffix, // 上传至云端的路径
+            cloudPath: "attendance/"+datalist[0].course+this.data.date+'/'+new Date().getTime() + suffix, // 上传至云端的路径
             filePath: item, // 小程序临时文件路径
             success: res => {
               this.setData({
