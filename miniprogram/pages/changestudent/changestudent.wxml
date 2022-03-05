@@ -1,0 +1,72 @@
+<form bindsubmit="teformSubmit">
+
+  <!-- 年级end -->
+    <!--  课程 -->
+<!--pages/picker/picker.wxml-->
+<view class='motion flexac'>
+  <view class="motionText">课程信息</view>
+
+  <picker 
+    mode="multiSelector" 
+    bindchange="bindCustomPickerChange"   
+    bindcolumnchange="bindCustomPickerColumnChange" 
+    value="{{customIndex}}" 
+    range="{{onlyArray}}"
+    >
+    <view class="picker">
+      {{onlyArray[0][customIndex[0]]}}-{{onlyArray[1][customIndex[1]]}}-{{onlyArray[2][customIndex[2]]}}
+      <image src='/img/arrow-right.png' class='sectImg'></image>
+    </view>
+</picker>
+
+</view>
+
+  <!-- end -->
+  <!-- 上课时间 -->
+  <view class='motion flexac'>
+    <view class='motionText'>上课时间</view>
+    <view class="section flexjac">
+      <picker bindchange="weekTypeChange" value="{{weekId}}" range="{{week}}">
+        <view class="picker">
+          {{week[weekId]}}
+        </view>
+      </picker>
+      <image src='/img/arrow-right.png' class='sectImg'></image>
+    </view>
+    <input style='display:none;' name="week" value="{{week[weekId]}}"></input>
+  </view>
+  <!-- 上课时间end -->
+
+
+  <view class='proText'>*点击查询学员前，请选项班级信息</view>
+  <button formType="submit">查询学员</button>
+</form>
+
+<view class="main" >
+  <view class="grid"  wx:for="{{list}}" wx:key="{{item.id}}">
+    <text data-index="{{index}}"> {{item.grade}}\n{{item.class}}\n{{item.name}}      
+    </text>
+    <text class="iconfont icon-dagou{{item.check}}" ></text>
+  
+  </view>
+</view>
+<form bindsubmit="addstudent">
+   <!--  年级 -->
+  <view class='motion flexac'>
+    <view class='motionText'>课程信息</view>
+    <view class="section flexjac">
+      <picker mode="multiSelector" bindchange="bindclassChange" bindcolumnchange="bindColumnChange" value="{{index}}" range="{{class}}">
+       <view class="picker">{{class[0][classId[0]]+class[1][classId[1]]}}</view>
+      </picker>
+      <image src='/img/arrow-right.png' class='sectImg'></image>
+    </view>
+    <input style='display:none;' name="class" value="{{class[0][classId[0]]+class[1][classId[1]]}}"></input>
+  </view>
+  <!-- 年级end -->
+  <view class="view-contain-ti">
+    <text class="text-ti">添加学员姓名</text>
+    <input class="input1" bindinput="addname"></input>
+</view>
+    <button formType="submit">添加学员</button>
+</form>
+

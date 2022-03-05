@@ -22,12 +22,13 @@
   border:1px solid ;
   border-color: chartreuse;
   border-radius: 10%;
+  position: relative;
 }
 .grid0 {
   height: 100rpx;
   width: 100rpx;
   background-color: #ffffff;
-  margin: 3rpx;
+  margin: 5rpx;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,6 +38,7 @@
   border:1px solid ;
   border-color:#ffffff;
   border-radius: 10%;
+
 }
 @font-face {
   font-family: 'iconfont';
@@ -61,13 +63,13 @@
   width: 30rpx;
   content: "\e607";
   color:white;
-    background-color: chartreuse;
-    font-size:10px;
-    position: absolute;
+  background-color: chartreuse;
+  font-size:10px;
+  position: absolute;
 
-    border-top-right-radius: 30%;
-    margin-top: -52rpx;
-    margin-left: -18rpx;
+ border-top-right-radius: 30%;
+  top: -1px;
+  right: -1rpx;
 
 }
 /* .icon-dagou0:before {
