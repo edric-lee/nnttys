@@ -14,7 +14,7 @@
     "pages/openapi/cloudid/cloudid",
     "pages/im/im",
     "pages/im/room/room",
-    
+    "pages/changestudent/changestudent",
     "pages/home/home",
     "pages/download/download"
   ],

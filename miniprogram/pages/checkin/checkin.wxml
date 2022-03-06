@@ -58,14 +58,13 @@
   <!-- 上课时间end -->
 
 
-  <view class='proText'>*点击查询学员前，请选项班级信息</view>
+  <view class='proText'>{{teacherId}}</view>
   <button formType="submit">查询学员</button>
 </form>
 
 <view class="main" >
-  <view class="grid{{item.check}}"  bindtap="change" wx:for="{{list}}" wx:key="{{item.id}}">
-    <text data-index="{{index}}"> \n{{item.name}} 
-      
+  <view class="grid{{item.check}}"  bindtap="change" wx:for="{{list}}" wx:key="{{item.name}}">
+    <text data-index="{{index}}"> {{item.grade}}\n{{item.class}}\n{{item.name}}      
     </text>
     <text class="iconfont icon-dagou{{item.check}}" ></text>
   

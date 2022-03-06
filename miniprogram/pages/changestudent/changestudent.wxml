@@ -38,7 +38,7 @@
   <!-- 上课时间end -->
 
 
-  <view class='proText'>*点击查询学员前，请选项班级信息</view>
+  <view class='proText'>{{teacherId}}</view>
   <button formType="submit">查询学员</button>
 </form>
 
@@ -50,7 +50,8 @@
   
   </view>
 </view>
-<form bindsubmit="addstudent">
+<form  bindsubmit="addstudent">
+  <view class="add">
    <!--  年级 -->
   <view class='motion flexac'>
     <view class='motionText'>课程信息</view>
@@ -63,10 +64,21 @@
     <input style='display:none;' name="class" value="{{class[0][classId[0]]+class[1][classId[1]]}}"></input>
   </view>
   <!-- 年级end -->
-  <view class="view-contain-ti">
-    <text class="text-ti">添加学员姓名</text>
-    <input class="input1" bindinput="addname"></input>
-</view>
-    <button formType="submit">添加学员</button>
-</form>
 
+<view class="motion flexac">
+      <label for="" class="motionText">添加学生姓名</label>
+      <input type="text" class="ml40 flex1" placeholder="请输入学生姓名" bindinput="addname"></input>
+    </view>
+
+    <button formType="submit">添加学员</button>
+  </view>
+</form>
+<view class="add">
+<form bindsubmit="delstudent">
+  <view class="motion flexac">
+      <label for="" class="motionText">删除学生姓名</label>
+      <input type="text" class="ml40 flex1" placeholder="请输入学生姓名" bindinput="delname"></input>
+    </view>
+    <button formType="submit">删除学员</button>
+</form>
+</view>

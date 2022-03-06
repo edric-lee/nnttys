@@ -286,7 +286,7 @@ Page({
     date:['选择考勤日期'],
     imgbox: [],//选择图片
     fileIDs: [],//上传云存储后的返回值
-
+    teacherId:'*点击查询学员前，请选项班级信息',
   },
   
   selectApply:function(e){
@@ -344,28 +344,53 @@ Page({
     })
   },
   //表单提交时间
-  teformSubmit(e) {
+  async teformSubmit(e) {
+    var that = this;
+  //由于需要同步获取数据，可能较慢，最好加入加载动画
+    wx.showLoading({
+      title: '加载中',
+    })
+   //初始化云端环境
     let val = e.detail.value
     let cIndex =this.data.customIndex[2]
     // console.log("课课程",this.data.onlyArray[2][cIndex])
-    student.where({
+        //查询附近拼单
+     //定义每次获取的条数
+     const MAX_LIMIT = 20;
+     //先取出集合的总数
+     const countResult = await db.collection('class').where({
       course:this.data.onlyArray[2][cIndex],
       week:val.week
-      })
-    .orderBy('id','asc')
-    .get().then(res=>{
-      console.log("查询",res.data)
-    var datalist=res.data
-    for(var j in datalist) {
-      res.data[j]['check']="1"
+      }).count()
+      const total = countResult.total
+       //计算需分几次取
+      const batchTimes = Math.ceil(total / MAX_LIMIT)
+      // 承载所有读操作的 promise 的数组
+      const arraypro = []
+     //初次循环获取云端数据库的分次数的promise数组
+    for (let i = 0; i < batchTimes; i++) {
+      const promise = await db.collection('class').where({
+        course:this.data.onlyArray[2][cIndex],
+        week:val.week
+        }).skip(i * MAX_LIMIT).limit(MAX_LIMIT).get()
+     //二次循环根据获取的promise数组的数据长度获取全部数据push到arraypro数组中
+      for (let j = 0; j < promise.data.length;j++){
+        arraypro.push(promise.data[j])
+      }
     }
-    var listData = res.data
-        this.setData({
-          list: listData
-        })
-    // console.log("查询成功",res.data)
-  })    
+        // 把数据传递至页面视图
+
+  for(var j in arraypro) {
+    arraypro[j]['check']="1"
+  }
+    console.log(arraypro)
+    this.setData({
+              list:  arraypro,
+              teacherId:'任课教师：'+arraypro[0].teacher
+            })
+    wx.hideLoading()
   },
+  
   checkSubmit(e) {
   
   if(e.detail.value.date=='')

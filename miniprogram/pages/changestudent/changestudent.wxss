@@ -344,3 +344,24 @@ button{
 .radio-group{
   display: flex;
 }
+.add{
+  width: 95%;
+  border:1px solid #FFA404;
+  margin: auto;
+  border-radius: 10rpx;
+  margin-top: 10rpx;
+}
+/*  */
+.ipt-wrap{
+  min-height: 100rpx;
+  line-height: 100rpx;
+  border:1px solid #FFA404;
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 10rpx;
+}
+
+.ai-center{align-items: center;}
+.ml40{margin-left: 40rpx;}
+.flex1{flex:1;}

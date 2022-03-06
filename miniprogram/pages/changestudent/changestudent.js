@@ -2,6 +2,7 @@
 // import { cityData } from './city.js'
 const app=getApp
 const db=wx.cloud.database()
+
 const student=db.collection('class')
 
 Page({
@@ -289,6 +290,8 @@ Page({
     class:[['一年级','二年级','三年级','四年级','五年级','六年级'],['1班','2班','3班','4班','5班','6班','7班','8班','9班','10班','11班','12班']],
     classId:[0,0],
     addstudentname:[],
+    delstudentname:[],
+    teacherId:'*点击查询学员前，请选项班级信息',
   },
   
 
@@ -325,23 +328,47 @@ Page({
     })
   },
   //表单提交时间
-  teformSubmit(e) {
+  async teformSubmit(e) {
+    var that = this;
+  //由于需要同步获取数据，可能较慢，最好加入加载动画
+    wx.showLoading({
+      title: '加载中',
+    })
+   //初始化云端环境
     let val = e.detail.value
     let cIndex =this.data.customIndex[2]
     // console.log("课课程",this.data.onlyArray[2][cIndex])
-    student.where({
+        //查询附近拼单
+     //定义每次获取的条数
+     const MAX_LIMIT = 20;
+     //先取出集合的总数
+     const countResult = await db.collection('class').where({
       course:this.data.onlyArray[2][cIndex],
       week:val.week
-      })
-      .limit(100)
-    .orderBy('name', 'desc')
-    .get().then(res=>{
-      console.log("查询",res.data)
-        this.setData({
-          list:  res.data
-        })
-    // console.log("查询成功",res.data)
-  })    
+      }).count()
+      const total = countResult.total
+       //计算需分几次取
+      const batchTimes = Math.ceil(total / MAX_LIMIT)
+      // 承载所有读操作的 promise 的数组
+      const arraypro = []
+     //初次循环获取云端数据库的分次数的promise数组
+    for (let i = 0; i < batchTimes; i++) {
+      const promise = await db.collection('class').where({
+        course:this.data.onlyArray[2][cIndex],
+        week:val.week
+        }).skip(i * MAX_LIMIT).limit(MAX_LIMIT).get()
+     //二次循环根据获取的promise数组的数据长度获取全部数据push到arraypro数组中
+      for (let j = 0; j < promise.data.length;j++){
+        arraypro.push(promise.data[j])
+      }
+    }
+        // 把数据传递至页面视图
+    console.log(arraypro)
+    this.setData({
+              list:  arraypro,
+              teacherId:'任课教师：'+arraypro[0].teacher
+            })
+    wx.hideLoading()
   },
 
 
@@ -531,11 +558,17 @@ bindCustomPickerColumnChange: function(e) {
   });
 },
 addstudent(e) {
+  if(this.data.addstudentname=='')
+  {
+    wx.showToast({
+      icon: 'none',
+      title: '输入添加的学生姓名'
+    });
+  }
+else{
   let val = e.detail.value
   var datalist=this.data.list
-  console.log('form', val.class.substr(3,3)),
-  console.log( 'form',val.class.substr(0,3)),
-  console.log('form', datalist),
+
   // console.log("课课程",this.data.onlyArray[2][cIndex])
   student.add({
     data:{
@@ -549,16 +582,54 @@ addstudent(e) {
     class:val.class.substr(3,3),
   },success(res){
     console.log("成功",res);
+    wx.showToast({
+      title: "添加成功",
+    })
    },
    fail(res){
      console.log("失败",res);
+     wx.showToast({
+      title: "添加失败",
+    })
    }
 }) 
-},
+}},
 addname: function(e) {
   this.data.addstudentname = e.detail.value;
 },
+delstudent(e) {
+  if(this.data.addstudentname=='')
+  {
+    wx.showToast({
+      icon: 'none',
+      title: '输入删除的学生姓名'
+    });
+  }
+else{
+  var datalist=this.data.list
 
+  // console.log("课课程",val)
+  student.where({
+    course:datalist[0].course,
+    name:this.data.delstudentname,
+    week:this.data.week[this.data.weekId]}).remove({
+      success(res){
+      console.log("成功",res);
+      wx.showToast({
+        title: "删除成功",
+      })
+     },
+     fail(res){
+       console.log("失败",res);
+       wx.showToast({
+        title: "删除失败",
+      })}
+    })
+  }
+  },
+delname: function(e) {
+  this.data.delstudentname = e.detail.value;
+},
 
 
 })
